@@ -1,16 +1,18 @@
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script>
 async function getPDF() {
-    axios.get(`https://bogvtax53g.execute-api.ap-southeast-2.amazonaws.com/dev/puppeteer/pdf`, {
+    axios.get(`http://localhost:3003/dev/puppeteer/pdf?url=http://google.com`, {
+    // axios.get(`https://bogvtax53g.execute-api.ap-southeast-2.amazonaws.com/dev/puppeteer/pdf`, {
         responseType: 'arraybuffer',
         headers: {
             'Accept': 'application/pdf'
-        }
+        },
+        withCredentials: true,
     }).then((response) => {
        const blob = new Blob([response.data], {type: 'application/pdf'})
        const link = document.createElement('a')
        link.href = window.URL.createObjectURL(blob)
-       link.download = `your-file-name.pdf`
+       link.download = `test.pdf`
        link.click()
      });
 }
