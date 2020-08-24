@@ -1,13 +1,13 @@
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script>
 async function getPDF() {
-    axios.get(`http://localhost:3003/dev/puppeteer/pdf?url=http://google.com`, {
-    // axios.get(`https://bogvtax53g.execute-api.ap-southeast-2.amazonaws.com/dev/puppeteer/pdf`, {
+    // axios.get(`http://localhost:3003/dev/puppeteer/pdf?url=https://allocations.pmcv.com.au/candidate/100142/cv`, {
+    axios.get(`https://bogvtax53g.execute-api.ap-southeast-2.amazonaws.com/dev/puppeteer/pdf?url=https://allocations.pmcv.com.au/candidate/102376/cv`, {
         responseType: 'arraybuffer',
         headers: {
             'Accept': 'application/pdf'
         },
-        withCredentials: true,
+        // withCredentials: true,
     }).then((response) => {
        const blob = new Blob([response.data], {type: 'application/pdf'})
        const link = document.createElement('a')

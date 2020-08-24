@@ -3,6 +3,7 @@ frameworkVersion: "1.60.5"
 
 provider:
   name: aws
+  timeout: 30
   # versionFunctions: false
   runtime: nodejs12.x
   region: ap-southeast-2
