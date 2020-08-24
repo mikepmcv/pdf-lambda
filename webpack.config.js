@@ -9,7 +9,6 @@ module.exports = {
   node: {
     __dirname: true
   },
-
   externals: [nodeExternals()],
   module: {
     rules: [
