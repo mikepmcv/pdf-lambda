@@ -6,7 +6,8 @@ import pdf from "./lib/pdf";
 
 const handler = async (event, context) => {
   try {
-    const { url } = event.queryStringParameters;
+    console.log(event.body)
+    const { url } = JSON.parse(event.body);
     // const cookies = event.headers.Cookie.split('; ').reduce((prev, current) => {
     //   const [name, value] = current.split('=');
     //   prev[name] = value;

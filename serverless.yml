@@ -53,5 +53,5 @@ functions:
     events:
       - http:
           path: pdf
-          method: get
+          method: post
           cors: true
