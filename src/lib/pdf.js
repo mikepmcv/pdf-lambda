@@ -1,5 +1,6 @@
 import middy from "@middy/core";
 import chromium from "chrome-aws-lambda";
+import styles from './styles'
 
 async function wait(ms) {
     return new Promise(resolve => {
@@ -7,7 +8,7 @@ async function wait(ms) {
     });
   }
 
-const pdf = async (url, cookies) => {
+const pdf = async (url, name) => {
   try {
     const executablePath = process.env.IS_OFFLINE ? null : await chromium.executablePath;
 
@@ -21,19 +22,10 @@ const pdf = async (url, cookies) => {
     
       const host = (new URL(url)).hostname;
       const page = await browser.newPage();
-      const rememberMe = cookies['pmcv-rememberme'];
     
-      //`${process.env.BASE_URL}/candidate/${id}/cv?pmcvtoken=${otp}`
-    
-      const newUrl = `${url}?pmcvtoken=${rememberMe}`;
-    
-      await page.goto(newUrl, { 
-        // waitUntil: 'networkidle0',
-        // waitUntil: "load",
-        timeout: 10000
+      await page.goto(url, { 
+        timeout: 15000
       });
-
-      // await page.waitFor('*');
 
       await page.waitForSelector('.formio-form .form-group', {
         visible: true,
@@ -52,17 +44,17 @@ const pdf = async (url, cookies) => {
         .on("response", response => console.log(`${response.status()} ${response.url()}`))
         .on("requestfailed", request => console.log(`${request.failure().errorText} ${request.url()}`));
     
-      const cookieArr = Object.keys(cookies).map((key) => {
-        const value = cookies[key];
+      // const cookieArr = Object.keys(cookies).map((key) => {
+      //   const value = cookies[key];
     
-        return {
-          name: key,
-          value,
-          domain: host,
-        };
-      });
+      //   return {
+      //     name: key,
+      //     value,
+      //     domain: host,
+      //   };
+      // });
     
-      await page.setCookie(...cookieArr);
+      // await page.setCookie(...cookieArr);
     
       await wait(400);
     
@@ -71,25 +63,35 @@ const pdf = async (url, cookies) => {
       //     authorization: `Basic ${Buffer.from('staging:pmcvstaging').toString('base64')}`,
       //   });
       // }
+
+      await page.$eval("body", element => element.classList.add("pdf-view"));
     
-      const stream = await page.pdf({
-        format: 'A4',
+      await page.addStyleTag({
+        content: styles,
+      });
+
+      await page.emulateMediaType("screen");
+    
+      const pdf = await page.pdf({
+        format: "A4",
         margin: {
-          top: '50px',
-          left: '50px',
-          bottom: '50px',
-          right: '50px',
+          top: "50px",
+          left: "50px",
+          bottom: "50px",
+          right: "50px"
         },
         displayHeaderFooter: true,
-        headerTemplate: '<div/>',
-        footerTemplate: '<div style="font-size: 10px; font-family: arial; text-align: right; margin-right: 20px; width: 100%">Page <span class="pageNumber"></span></div>',
+        headerTemplate: "<div/>",
+        footerTemplate: `<div style="font-size: 10px; font-family: arial; text-align: right; margin-right: 20px; width: 100%"><span style="margin-right:40px;">${name || ''}</span>Page <span class="pageNumber"></span>/<span class="totalPages"></span></div>`
       });
 
       await browser.close();
     
-      return stream;
+      return pdf;
     } catch (error) {
-      console.log(error)
+      console.log(error);
+      
+      throw new Error('failed');
     }
 }
 

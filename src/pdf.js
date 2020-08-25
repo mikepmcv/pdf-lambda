@@ -6,32 +6,17 @@ import pdf from "./lib/pdf";
 
 const handler = async (event, context) => {
   try {
-    console.log(event.body)
-    const { url } = JSON.parse(event.body);
-    // const cookies = event.headers.Cookie.split('; ').reduce((prev, current) => {
-    //   const [name, value] = current.split('=');
-    //   prev[name] = value;
-    //   return prev
-    // }, {});
+    const { url, name } = event.queryStringParameters;
 
-    console.log(event)
-
-    const cookies = {
-      "pmcv-rememberme":
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAsImVtYWlsIjoiYWRtaW5AdXNlcmNlbnRyaWMuY29tLmF1Iiwicm9sZSI6ImFkbWluIiwiZmlyc3ROYW1lIjoiVXNlckNlbnRyaWMiLCJsYXN0TmFtZSI6IkZ1bmN0aW9uYWwgQWNjb3VudCIsInByb2Zlc3Npb24iOm51bGwsInZlcmlmaWVkIjpmYWxzZSwiaWF0IjoxNTk4Mjc3OTMzfQ.tuHVX3BUgQoukyJIICoUy3f2LlZkJlAITpYNC5NFo9U",
-    };
-
-    const stream = await pdf(url, cookies);
+    const stream = await pdf(url, name);
 
     const response = {
       statusCode: 200,
       isBase64Encoded: true,
       headers: {
         'Content-type': 'application/pdf',
-        'Access-Control-Allow-Origin': 'http://localhost:8080',
-        'Access-Control-Allow-Credentials': true,
-        // 'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept',
-        // 'Access-Control-Allow-Headers': 'Set-Cookie',
+        'Access-Control-Allow-Origin': '*',
+        // 'Access-Control-Allow-Credentials': true,
       },
       body: stream.toString('base64'),
     };

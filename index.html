@@ -1,9 +1,11 @@
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script>
 async function getPDF() {
-    axios.post(`http://127.0.0.1:3003/dev/pdf`, { url: 'https://allocations.pmcv.com.au/candidate/100142/cv'},  {
-    // axios.get(`https://bogvtax53g.execute-api.ap-southeast-2.amazonaws.com/dev/pdf?url=https://allocations.pmcv.com.au/candidate/102376/cv`, {
-        withCredentials: true,
+    const jwt = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAsImVtYWlsIjoiYWRtaW5AdXNlcmNlbnRyaWMuY29tLmF1Iiwicm9sZSI6ImFkbWluIiwiZmlyc3ROYW1lIjoiVXNlckNlbnRyaWMiLCJsYXN0TmFtZSI6IkZ1bmN0aW9uYWwgQWNjb3VudCIsInByb2Zlc3Npb24iOm51bGwsInZlcmlmaWVkIjpmYWxzZSwiaWF0IjoxNTk4Mjc3OTMzfQ.tuHVX3BUgQoukyJIICoUy3f2LlZkJlAITpYNC5NFo9U';
+
+    // axios.get(`http://localhost:3003/dev/pdf?url=https://allocations.pmcv.com.au/candidate/102376/cv?pmcvtoken=${jwt}`,  {
+    axios.get(`https://bogvtax53g.execute-api.ap-southeast-2.amazonaws.com/dev/pdf?url=https://allocations.pmcv.com.au/candidate/102376/cv?pmcvtoken=${jwt}`, {
+        // withCredentials: true,
         responseType: 'arraybuffer',
         headers: {
             'Accept': 'application/pdf',
