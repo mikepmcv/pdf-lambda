@@ -22,8 +22,6 @@ const pdf = async (url, cookies) => {
       const host = (new URL(url)).hostname;
       const page = await browser.newPage();
       const rememberMe = cookies['pmcv-rememberme'];
-
-      
     
       //`${process.env.BASE_URL}/candidate/${id}/cv?pmcvtoken=${otp}`
     

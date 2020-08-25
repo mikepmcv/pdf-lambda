@@ -2,7 +2,7 @@ import middy from "@middy/core";
 import chromium from "chrome-aws-lambda";
 import { APIGatewayEvent } from "aws-lambda";
 import doNotWaitForEmptyEventLoop from "@middy/do-not-wait-for-empty-event-loop";
-import pdf from "../lib/pdf";
+import pdf from "./lib/pdf";
 
 const handler = async (event, context) => {
   try {
@@ -12,6 +12,8 @@ const handler = async (event, context) => {
     //   prev[name] = value;
     //   return prev
     // }, {});
+
+    console.log(event)
 
     const cookies = {
       "pmcv-rememberme":
@@ -25,8 +27,9 @@ const handler = async (event, context) => {
       isBase64Encoded: true,
       headers: {
         'Content-type': 'application/pdf',
-        'Access-Control-Allow-Origin': '*',
-        // 'Access-Control-Allow-Credentials': true,
+        'Access-Control-Allow-Origin': 'http://localhost:8080',
+        'Access-Control-Allow-Credentials': true,
+        // 'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept',
         // 'Access-Control-Allow-Headers': 'Set-Cookie',
       },
       body: stream.toString('base64'),

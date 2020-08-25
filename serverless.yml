@@ -47,11 +47,11 @@ custom:
 functions:
   generate-the-pdf:
     # provisionedConcurrency: 2
-    handler: functions/pdf.generate
+    handler: src/pdf.generate
     layers:
       - { Ref: HeadlessChromeLambdaLayer }
     events:
       - http:
-          path: puppeteer/pdf
+          path: pdf
           method: get
           cors: true
