@@ -1,23 +1,49 @@
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script>
-async function getPDF() {
     const jwt = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAsImVtYWlsIjoiYWRtaW5AdXNlcmNlbnRyaWMuY29tLmF1Iiwicm9sZSI6ImFkbWluIiwiZmlyc3ROYW1lIjoiVXNlckNlbnRyaWMiLCJsYXN0TmFtZSI6IkZ1bmN0aW9uYWwgQWNjb3VudCIsInByb2Zlc3Npb24iOm51bGwsInZlcmlmaWVkIjpmYWxzZSwiaWF0IjoxNTk4Mjc3OTMzfQ.tuHVX3BUgQoukyJIICoUy3f2LlZkJlAITpYNC5NFo9U';
 
-    // axios.get(`http://localhost:3003/dev/pdf?url=https://allocations.pmcv.com.au/candidate/102376/cv?pmcvtoken=${jwt}`,  {
-    axios.get(`https://bogvtax53g.execute-api.ap-southeast-2.amazonaws.com/dev/pdf?url=https://allocations.pmcv.com.au/candidate/102376/cv?pmcvtoken=${jwt}`, {
-        // withCredentials: true,
-        responseType: 'arraybuffer',
-        headers: {
-            'Accept': 'application/pdf',
-        },
-    }).then((response) => {
-       const blob = new Blob([response.data], {type: 'application/pdf'})
-       const link = document.createElement('a')
-       link.href = window.URL.createObjectURL(blob)
-       link.download = `test.pdf`
-       link.click()
-     });
-}
+    // const url = 'https://bogvtax53g.execute-api.ap-southeast-2.amazonaws.com/dev/pdf?url=https://allocations.pmcv.com.au/referee/assessment?uuid=7137d96c-8b41-46e8-bbc6-a01c94b659f4';
+    // const url = `https://bogvtax53g.execute-api.ap-southeast-2.amazonaws.com/dev/pdf?url=https://allocations.pmcv.com.au/candidate/102376/cv?pmcvtoken=${jwt}`;
+    const url = `http://localhost:3003/dev/pdf?url=https://allocations.pmcv.com.au/candidate/102376/cv?pmcvtoken=${jwt}`
 
-getPDF();
+    async function getPDF() {
+        
+        axios.get(url, {
+            responseType: 'arraybuffer',
+            headers: {
+                'Accept': 'application/pdf',
+            },
+        }).then((response) => {
+            const blob = new Blob([response.data], {type: 'application/pdf'})
+            const link = document.createElement('a')
+            link.href = window.URL.createObjectURL(blob)
+            link.download = `test.pdf`
+            link.click()
+        });
+    }
+
+    getPDF();
+    getPDF();
+    getPDF();
+    getPDF();
+    // getPDF();
+    // getPDF();
+    // getPDF();
+    // getPDF();
+    // getPDF();
+    // getPDF();
+    // getPDF();
+    // getPDF();
+    // getPDF();
+    // getPDF();
+    // getPDF();
+    // getPDF();
+    // getPDF();
+    // getPDF();
+    // getPDF();
+    // getPDF();
+    // getPDF();
+    // getPDF();
+    // getPDF();
+    // getPDF();
 </script>

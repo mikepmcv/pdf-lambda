@@ -1,14 +1,12 @@
-import middy from "@middy/core";
-import chromium from "chrome-aws-lambda";
-import { APIGatewayEvent } from "aws-lambda";
-import doNotWaitForEmptyEventLoop from "@middy/do-not-wait-for-empty-event-loop";
-import pdf from "./lib/pdf";
+import middy from '@middy/core';
+import doNotWaitForEmptyEventLoop from '@middy/do-not-wait-for-empty-event-loop';
+import pdf from './lib/pdf';
 
 const handler = async (event, context) => {
   try {
-    const { url, name } = event.queryStringParameters;
+    const { url, footerText } = event.queryStringParameters;
 
-    const stream = await pdf(url, name);
+    const stream = await pdf({ url, footerText });
 
     const response = {
       statusCode: 200,
@@ -16,15 +14,19 @@ const handler = async (event, context) => {
       headers: {
         'Content-type': 'application/pdf',
         'Access-Control-Allow-Origin': '*',
-        // 'Access-Control-Allow-Credentials': true,
       },
       body: stream.toString('base64'),
     };
 
+    // context.callbackWaitsForEmptyEventLoop = false;
+
     return context.succeed(response);
   } catch (error) {
+    console.log(error);
+
     return context.fail(error);
   }
 };
 
+// eslint-disable-next-line import/prefer-default-export
 export const generate = middy(handler).use(doNotWaitForEmptyEventLoop());
