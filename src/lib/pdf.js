@@ -9,6 +9,8 @@ async function wait(ms) {
 
 const pdf = async ({ url, footerText, cookies = [] }) => {
   try {
+    console.time('PAGETIME');
+
     const executablePath = process.env.IS_OFFLINE ? null : await chromium.executablePath;
 
     const browser = await chromium.puppeteer.launch({
@@ -22,10 +24,15 @@ const pdf = async ({ url, footerText, cookies = [] }) => {
     // create isolated browser that doesnt share cookies etc
     // const context = await browser.createIncognitoBrowserContext();
 
+    console.log('browser loaded');
+    console.timeLog('PAGETIME');
+
     const host = new URL(url).hostname;
     const page = await browser.newPage();
 
-    await page.setCacheEnabled(false);
+    // await page.setRequestInterception(true);
+
+    // await page.setCacheEnabled(false);
 
     await page.setUserAgent(
       'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.135 Safari/537.36',
@@ -38,7 +45,18 @@ const pdf = async ({ url, footerText, cookies = [] }) => {
           .substr(0, 3)
           .toUpperCase()} ${message.text()}`,
       ))
-      // .on("request", ({ message }) => console.log('REQUEST STARTED'))
+      // .on('request', (interceptedRequest) => {
+    // if (
+    //   (interceptedRequest.url().endsWith('.png') ||
+    // interceptedRequest.url().endsWith('.jpg'))
+    //   || interceptedRequest.url().includes('hotjar')
+    //   || interceptedRequest.url().includes('google')
+    // ) {
+    //   interceptedRequest.abort();
+    // } else {
+    //   interceptedRequest.continue();
+    // }
+      // })
       .on('error', () => console.log('ERROR'))
       .on('disconnected', () => console.log('DISCONNECTED'))
       // .on("requestfinished", () => console.log('REQ FINISHED'))
@@ -52,17 +70,26 @@ const pdf = async ({ url, footerText, cookies = [] }) => {
 
     await page
       .goto(url, {
-        timeout: 15000,
+        timeout: 20000,
       })
       .catch((e) => {
         console.log(e.message);
       });
+
+    console.log('SCREEN TYPE START');
+    console.timeLog('PAGETIME');
+
+    await page.emulateMediaType('screen');
+
+    console.log('SCREEN TYPE LOADED');
+    console.timeLog('PAGETIME');
 
     await page.waitForSelector('.formio-form .form-group', {
       visible: true,
     });
 
     console.log('PAGE LOADED');
+    console.timeLog('PAGETIME');
 
     if (cookies && cookies.length) {
       const cookieArr = Object.keys(cookies).map((key) => {
@@ -78,7 +105,7 @@ const pdf = async ({ url, footerText, cookies = [] }) => {
       await page.setCookie(...cookieArr);
     }
 
-    await wait(400);
+    await wait(100);
 
     // if (host === 'staging.allocations.pmcv.com.au') {
     //   await page.setExtraHTTPHeaders({
@@ -92,7 +119,8 @@ const pdf = async ({ url, footerText, cookies = [] }) => {
       content: styles,
     });
 
-    await page.emulateMediaType('screen');
+    console.log('STYLES LOADED');
+    console.timeLog('PAGETIME');
 
     console.log('START PDF');
 
@@ -112,6 +140,8 @@ const pdf = async ({ url, footerText, cookies = [] }) => {
     });
 
     console.log('END PDF');
+
+    console.timeEnd('PAGETIME');
 
     await browser.close();
 

@@ -1,8 +1,7 @@
 export default `
 .pdf-visible { display: block; }
-.pmcv-notice { display: none; }
-.ant-descriptions, 
-._hj_feedback_container {
+.pmcv-notice, #_hj_feedback_container { display: none!important; }
+.ant-descriptions {
   border: none;
   padding: 0
 }

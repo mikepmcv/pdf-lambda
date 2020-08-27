@@ -14,20 +14,19 @@
     "@middy/do-not-wait-for-empty-event-loop": "^1.0.0-beta",
     "aws-lambda": "^1.0.4",
     "chrome-aws-lambda": "^2.0.2",
-    "eslint": "^7.7.0",
-    "eslint-config-airbnb-base": "^14.2.0",
-    "eslint-plugin-import": "^2.21.2",
-    "puppeteer": "^2.0.0",
     "puppeteer-core": "^2.0.0",
-    "serverless": "1.60.5",
-    "serverless-offline": "v6.0.0-alpha.59"
+    "serverless": "1.60.5"
   },
   "devDependencies": {
     "@types/aws-lambda": "^8.10.39",
     "@types/node": "^13.1.4",
+    "eslint": "^7.7.0",
+    "eslint-config-airbnb-base": "^14.2.0",
+    "eslint-plugin-import": "^2.21.2",
+    "puppeteer": "^2.0.0",
     "serverless-domain-manager": "^3.3.0",
+    "serverless-offline": "v6.0.0-alpha.59",
     "serverless-webpack": "^5.3.1",
-    "ts-loader": "^6.2.1",
     "typescript": "^3.7.4",
     "webpack": "^4.41.5",
     "webpack-node-externals": "^1.7.2"
