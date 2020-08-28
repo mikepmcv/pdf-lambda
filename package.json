@@ -1,10 +1,7 @@
 {
-  "name": "serverless-lambda-chrome",
+  "name": "pdf",
   "version": "1.0.0",
-  "main": "index.js",
-  "repository": "git@github.com:crespowang/serverless-lambda-chrome.git",
-  "author": "Crespo Wang <crespo.wang@inquisitive.com>",
-  "license": "MIT",
+  "main": "src/pdf.js",
   "scripts": {
     "start": "sls offline start --port 3003 --stage dev --basePath / --prefix dev --location .webpack/service --offline",
     "logs_dev": "sls logs -f generate-the-pdf -s dev -r ap-southeast-2"

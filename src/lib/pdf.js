@@ -23,10 +23,9 @@ const pdf = async ({
   jwt = '',
 }) => {
   try {
-    console.log(url, jwt);
-    console.time('PAGETIME');
-
     const executablePath = process.env.IS_OFFLINE ? null : await chromium.executablePath;
+
+    console.time('PAGETIME');
 
     const browser = await chromium.puppeteer.launch({
       headless: true,
@@ -54,7 +53,6 @@ const pdf = async ({
     }
 
     // await page.setRequestInterception(true);
-
     // await page.setCacheEnabled(false);
 
     await page.setUserAgent(
@@ -92,20 +90,14 @@ const pdf = async ({
       });
 
     await page
-      .goto(url, {
-        timeout: 20000,
-      })
+      .goto(url, { timeout: 15000 })
       .catch((e) => {
-        console.log(e.message);
+        console.log('PAGE ERROR CATCH', e.message);
+
+        throw new Error('failed');
       });
 
-    console.log('SCREEN TYPE START');
-    console.timeLog('PAGETIME');
-
     await page.emulateMediaType('screen');
-
-    console.log('SCREEN TYPE LOADED');
-    console.timeLog('PAGETIME');
 
     await page.waitForSelector('.formio-form .form-group', {
       visible: true,
@@ -129,12 +121,6 @@ const pdf = async ({
     }
 
     await wait(100);
-
-    // if (host === 'staging.allocations.pmcv.com.au') {
-    //   await page.setExtraHTTPHeaders({
-    //     authorization: `Basic ${Buffer.from('staging:pmcvstaging').toString('base64')}`,
-    //   });
-    // }
 
     await page.$eval('body', (element) => element.classList.add('pdf-view'));
 
@@ -163,7 +149,6 @@ const pdf = async ({
     });
 
     console.log('END PDF');
-
     console.timeEnd('PAGETIME');
 
     await browser.close();
