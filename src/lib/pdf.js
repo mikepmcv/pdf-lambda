@@ -1,14 +1,29 @@
 import chromium from 'chrome-aws-lambda';
 import styles from './styles';
 
+/** @param {number} ms */
 async function wait(ms) {
   return new Promise((resolve) => {
     setTimeout(resolve, ms);
   });
 }
 
-const pdf = async ({ url, footerText, cookies = [] }) => {
+/**
+ @param {{
+    url: string,
+    footerText?: string,
+    cookies?: Array,
+    jwt?: string
+ }} options
+*/
+const pdf = async ({
+  url,
+  footerText,
+  cookies = [],
+  jwt = '',
+}) => {
   try {
+    console.log(url, jwt);
     console.time('PAGETIME');
 
     const executablePath = process.env.IS_OFFLINE ? null : await chromium.executablePath;
@@ -29,6 +44,14 @@ const pdf = async ({ url, footerText, cookies = [] }) => {
 
     const host = new URL(url).hostname;
     const page = await browser.newPage();
+
+    if (jwt) {
+      await page.setCookie({
+        name: 'pmcv-rememberme',
+        value: jwt,
+        domain: host,
+      });
+    }
 
     // await page.setRequestInterception(true);
 

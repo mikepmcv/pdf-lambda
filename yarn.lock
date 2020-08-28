@@ -347,18 +347,6 @@
     "@hapi/bourne" "1.x.x"
     "@hapi/hoek" "8.x.x"
 
-"@middy/core@^1.0.0-beta":
-  version "1.0.0-beta"
-  resolved "https://registry.yarnpkg.com/@middy/core/-/core-1.0.0-beta.tgz#15059411a4af2072d9ef382a288d63592d95d0e5"
-  integrity sha512-X1KiOS60vGINRXKBYOoPE+JXXWGJU2R1gcPIfIYNLnylEcF+/w9/tq3zSQszdkRqL+OUhAHTHq1WotCrPiEMlg==
-  dependencies:
-    once "^1.4.0"
-
-"@middy/do-not-wait-for-empty-event-loop@^1.0.0-beta":
-  version "1.0.0-beta"
-  resolved "https://registry.yarnpkg.com/@middy/do-not-wait-for-empty-event-loop/-/do-not-wait-for-empty-event-loop-1.0.0-beta.tgz#5a514479fd82ada5641f557a9bca902507b4a40d"
-  integrity sha512-tpIxnPvUE3XvyhdfzgYyCIyHb84ThGDSx/QCbf97XBk5SyqFQEU8lXbg1J7bKPaKXmSpEd9Uh3ur6Me3Dh3jYw==
-
 "@serverless/cli@^1.4.0":
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/@serverless/cli/-/cli-1.4.0.tgz#46c35c35c2ba8ae224033e7157754aed789074f0"
@@ -6465,11 +6453,6 @@ typedarray@^0.0.6:
   version "0.0.6"
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
   integrity sha1-hnrHTjhkGHsdPUfZlqeOxciDB3c=
-
-typescript@^3.7.4:
-  version "3.7.4"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.7.4.tgz#1743a5ec5fef6a1fa9f3e4708e33c81c73876c19"
-  integrity sha512-A25xv5XCtarLwXpcDNZzCGvW2D1S3/bACratYBx2sax8PefsFhlYmkQicKHvpYflFS8if4zne5zT5kpJ7pzuvw==
 
 uglify-js@^3.1.4:
   version "3.7.3"

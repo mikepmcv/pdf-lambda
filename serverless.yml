@@ -46,7 +46,7 @@ custom:
 functions:
   generate-the-pdf:
     # provisionedConcurrency: 2
-    handler: src/pdf.generate
+    handler: src/pdf.handler
     layers:
       - { Ref: HeadlessChromeLambdaLayer }
     events:

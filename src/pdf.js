@@ -1,12 +1,11 @@
-import middy from '@middy/core';
-import doNotWaitForEmptyEventLoop from '@middy/do-not-wait-for-empty-event-loop';
 import pdf from './lib/pdf';
 
-const handler = async (event, context) => {
+// eslint-disable-next-line import/prefer-default-export
+export const handler = async (event, context) => {
   try {
-    const { url, footerText } = event.queryStringParameters;
+    const { url, footerText, jwt } = event.queryStringParameters;
 
-    const stream = await pdf({ url, footerText });
+    const stream = await pdf({ url, footerText, jwt });
 
     const response = {
       statusCode: 200,
@@ -18,7 +17,7 @@ const handler = async (event, context) => {
       body: stream.toString('base64'),
     };
 
-    // context.callbackWaitsForEmptyEventLoop = false;
+    context.callbackWaitsForEmptyEventLoop = false;
 
     return context.succeed(response);
   } catch (error) {
@@ -27,6 +26,3 @@ const handler = async (event, context) => {
     return context.fail(error);
   }
 };
-
-// eslint-disable-next-line import/prefer-default-export
-export const generate = middy(handler).use(doNotWaitForEmptyEventLoop());
