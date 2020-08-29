@@ -14,6 +14,7 @@ async function wait(ms) {
     footerText?: string,
     cookies?: Array,
     jwt?: string
+    waitForFormio?: boolean
  }} options
 */
 const pdf = async ({
@@ -21,6 +22,7 @@ const pdf = async ({
   footerText,
   cookies = [],
   jwt = '',
+  waitForFormio = true,
 }) => {
   try {
     const executablePath = process.env.IS_OFFLINE ? null : await chromium.executablePath;
@@ -38,7 +40,7 @@ const pdf = async ({
     // create isolated browser that doesnt share cookies etc
     // const context = await browser.createIncognitoBrowserContext();
 
-    console.log('browser loaded');
+    console.log('BROWSER LOADED');
     console.timeLog('PAGETIME');
 
     const host = new URL(url).hostname;
@@ -91,17 +93,26 @@ const pdf = async ({
 
     await page
       .goto(url, { timeout: 15000 })
-      .catch((e) => {
+      .catch(async (e) => {
         console.log('PAGE ERROR CATCH', e.message);
+
+        await browser.close();
+        console.time('PAGETIME');
 
         throw new Error('failed');
       });
 
     await page.emulateMediaType('screen');
 
-    await page.waitForSelector('.formio-form .form-group', {
-      visible: true,
-    });
+    if (waitForFormio) {
+      await page.waitForSelector('.formio-form .form-group', {
+        visible: true,
+      });
+    } else {
+      await page.waitForNavigation({
+        waitUntil: 'networkidle0',
+      });
+    }
 
     console.log('PAGE LOADED');
     console.timeLog('PAGETIME');
@@ -155,7 +166,7 @@ const pdf = async ({
 
     return stream;
   } catch (error) {
-    console.log(error);
+    console.log('CRASHED', error);
 
     throw new Error('failed');
   }

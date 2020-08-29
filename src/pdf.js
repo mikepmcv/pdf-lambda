@@ -3,9 +3,16 @@ import pdf from './lib/pdf';
 // eslint-disable-next-line import/prefer-default-export
 export const handler = async (event, context) => {
   try {
-    const { url, footerText, jwt } = event.queryStringParameters;
+    const {
+      url,
+      footerText,
+      jwt,
+      waitForFormio,
+    } = event.queryStringParameters;
 
-    const stream = await pdf({ url, footerText, jwt });
+    const stream = await pdf({
+      url, footerText, jwt, waitForFormio,
+    });
 
     const response = {
       statusCode: 200,

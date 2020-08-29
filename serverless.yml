@@ -1,15 +1,16 @@
 service: serverless-lambda-chrome
-frameworkVersion: "1.60.5"
+frameworkVersion: "1.80.0"
 
 provider:
   name: aws
+  profile: usercentric
   timeout: 30
-  memorySize: 1536
+  memorySize: 1024
   runtime: nodejs12.x
   region: ap-southeast-2
   stage: dev
   environment:
-    IS_OFFLINE: ${opt:offline}
+    IS_OFFLINE: ${opt:offline|false}
   apiGateway:
     binaryMediaTypes:
       - "application/pdf"
@@ -17,6 +18,7 @@ plugins:
   - serverless-webpack
   # - serverless-domain-manager
   - serverless-offline
+  - ./src/lib/offline-invalidate
 
 layers:
   HeadlessChrome:
@@ -38,14 +40,14 @@ custom:
     location: .webpack/service
 
   # customDomain:
-  #   domainName: labs.mianio.com
-  #   basePath: demo
+  #   domainName: pdf.usercentric.com.au
+  #   basePath: dev
   #   stage: ${self:provider.stage}
   #   createRoute53Record: true
 
 functions:
   generate-the-pdf:
-    # provisionedConcurrency: 2
+    # provisionedConcurrency: 4
     handler: src/pdf.handler
     layers:
       - { Ref: HeadlessChromeLambdaLayer }
