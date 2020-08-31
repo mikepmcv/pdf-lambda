@@ -1,13 +1,6 @@
 import chromium from 'chrome-aws-lambda';
 import styles from './styles';
 
-/** @param {number} ms */
-async function wait(ms) {
-  return new Promise((resolve) => {
-    setTimeout(resolve, ms);
-  });
-}
-
 /**
  @param {{
     url: string,
@@ -22,21 +15,21 @@ const pdf = async ({
   footerText,
   cookies = [],
   jwt = '',
-  waitForFormio = true,
+  waitForFormio = false,
 }) => {
+  const executablePath = process.env.IS_OFFLINE ? null : await chromium.executablePath;
+
+  console.time('PAGETIME');
+
+  const browser = await chromium.puppeteer.launch({
+    headless: true,
+    args: chromium.args,
+    defaultViewport: chromium.defaultViewport,
+    executablePath,
+    ignoreHTTPSErrors: true,
+  });
+
   try {
-    const executablePath = process.env.IS_OFFLINE ? null : await chromium.executablePath;
-
-    console.time('PAGETIME');
-
-    const browser = await chromium.puppeteer.launch({
-      headless: true,
-      args: chromium.args,
-      defaultViewport: chromium.defaultViewport,
-      executablePath,
-      ignoreHTTPSErrors: true,
-    });
-
     // create isolated browser that doesnt share cookies etc
     // const context = await browser.createIncognitoBrowserContext();
 
@@ -62,12 +55,12 @@ const pdf = async ({
     );
 
     page
-      .on('console', (message) => console.log(
-        `PUPPETEER_LOG: ${message
-          .type()
-          .substr(0, 3)
-          .toUpperCase()} ${message.text()}`,
-      ))
+      // .on('console', (message) => console.log(
+      //   `PUPPETEER_LOG: ${message
+      //     .type()
+      //     .substr(0, 3)
+      //     .toUpperCase()} ${message.text()}`,
+      // ))
       // .on('request', (interceptedRequest) => {
     // if (
     //   (interceptedRequest.url().endsWith('.png') ||
@@ -92,7 +85,10 @@ const pdf = async ({
       });
 
     await page
-      .goto(url, { timeout: 15000 })
+      .goto(url, {
+        timeout: 15000,
+        // waitUntil: 'networkidle0',
+      })
       .catch(async (e) => {
         console.log('PAGE ERROR CATCH', e.message);
 
@@ -104,15 +100,17 @@ const pdf = async ({
 
     await page.emulateMediaType('screen');
 
-    if (waitForFormio) {
-      await page.waitForSelector('.formio-form .form-group', {
-        visible: true,
-      });
-    } else {
-      await page.waitForNavigation({
-        waitUntil: 'networkidle0',
-      });
-    }
+    // if (waitForFormio) {
+    await page.waitForSelector('.formio-form .form-group', {
+      visible: true,
+    });
+
+    await page.waitFor(100);
+    // } else {
+    //   await page.waitForNavigation({
+    //     waitUntil: 'networkidle0',
+    //   });
+    // }
 
     console.log('PAGE LOADED');
     console.timeLog('PAGETIME');
@@ -131,16 +129,10 @@ const pdf = async ({
       await page.setCookie(...cookieArr);
     }
 
-    await wait(100);
-
     await page.$eval('body', (element) => element.classList.add('pdf-view'));
-
     await page.addStyleTag({
       content: styles,
     });
-
-    console.log('STYLES LOADED');
-    console.timeLog('PAGETIME');
 
     console.log('START PDF');
 
@@ -167,6 +159,9 @@ const pdf = async ({
     return stream;
   } catch (error) {
     console.log('CRASHED', error);
+    console.timeEnd('PAGETIME');
+
+    await browser.close();
 
     throw new Error('failed');
   }

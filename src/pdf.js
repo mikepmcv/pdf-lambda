@@ -2,6 +2,8 @@ import pdf from './lib/pdf';
 
 // eslint-disable-next-line import/prefer-default-export
 export const handler = async (event, context) => {
+  context.callbackWaitsForEmptyEventLoop = false;
+
   try {
     const {
       url,
@@ -24,11 +26,9 @@ export const handler = async (event, context) => {
       body: stream.toString('base64'),
     };
 
-    context.callbackWaitsForEmptyEventLoop = false;
-
     return context.succeed(response);
   } catch (error) {
-    console.log(error);
+    console.log('LAMBDA CATCH:', error);
 
     return context.fail(error);
   }

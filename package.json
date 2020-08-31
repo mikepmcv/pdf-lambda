@@ -5,11 +5,13 @@
   "scripts": {
     "start": "sls offline start --port 3003 --stage dev --basePath / --prefix dev --location .webpack/service --offline",
     "logs": "sls logs -f generate-the-pdf -s dev -r ap-southeast-2",
-    "deploy": "sls deploy"
+    "deploy": "sls deploy --stage prod",
+    "deploy_dev": "sls deploy --stage dev",
+    "deploy_both": "npm run deploy && npm run deploy_dev"
   },
   "dependencies": {
-    "chrome-aws-lambda": "^2.0.2",
-    "puppeteer-core": "^2.0.0"
+    "chrome-aws-lambda": "^5.2.1",
+    "puppeteer-core": "^5.2.1"
   },
   "devDependencies": {
     "@types/aws-lambda": "^8.10.39",
