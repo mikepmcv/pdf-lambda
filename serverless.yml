@@ -1,4 +1,4 @@
-service: serverless-lambda-chrome
+service: pdf
 frameworkVersion: "1.80.0"
 
 provider:
@@ -39,7 +39,7 @@ custom:
 
 functions:
   generate-the-pdf:
-    handler: src/pdf.handler
+    handler: src/pdf.default
     events:
       - http:
           path: pdf

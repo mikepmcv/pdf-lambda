@@ -2,7 +2,7 @@ import chromium from 'chrome-aws-lambda';
 import styles from './styles';
 
 /**
- @param {{
+  @param {{
     url: string,
     footerText?: string,
     cookies?: Array,
@@ -55,12 +55,6 @@ const pdf = async ({
     );
 
     page
-      // .on('console', (message) => console.log(
-      //   `PUPPETEER_LOG: ${message
-      //     .type()
-      //     .substr(0, 3)
-      //     .toUpperCase()} ${message.text()}`,
-      // ))
       // .on('request', (interceptedRequest) => {
     // if (
     //   (interceptedRequest.url().endsWith('.png') ||
@@ -75,19 +69,14 @@ const pdf = async ({
       // })
       .on('error', () => console.log('ERROR'))
       .on('disconnected', () => console.log('DISCONNECTED'))
-      // .on("requestfinished", () => console.log('REQ FINISHED'))
       .on('pageerror', ({ message }) => console.log(message))
-      // .on("response", response => console.log(`${response.status()} ${response.url()}`))
       .on('requestfailed', async (request) => {
         console.log(`${request.failure().errorText} ${request.url()}`);
-
-        // await page.reload();
       });
 
     await page
       .goto(url, {
         timeout: 15000,
-        // waitUntil: 'networkidle0',
       })
       .catch(async (e) => {
         console.log('PAGE ERROR CATCH', e.message);

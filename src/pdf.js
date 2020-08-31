@@ -1,7 +1,6 @@
 import pdf from './lib/pdf';
 
-// eslint-disable-next-line import/prefer-default-export
-export const handler = async (event, context) => {
+const handler = async (event, context) => {
   context.callbackWaitsForEmptyEventLoop = false;
 
   try {
@@ -33,3 +32,5 @@ export const handler = async (event, context) => {
     return context.fail(error);
   }
 };
+
+export default handler;
