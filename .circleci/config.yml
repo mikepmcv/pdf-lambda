@@ -37,7 +37,15 @@ jobs:
       - run: 
           name: Run tests with coverage
           command: npm test --coverage
+          filters:
+            branches:
+              only:
+                - master
 
       - run:
           name: Deploy application
           command: yarn deploy_dev
+          filters:
+            branches:
+              only:
+                - develop
