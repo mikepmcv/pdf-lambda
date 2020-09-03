@@ -32,29 +32,23 @@ jobs:
           paths:
             - node_modules
           key: v1-dependencies-
-  test:
-    steps: 
+        
       - run: 
-          name: Run tests with coverage
-          command: npm test --coverage
-          
-  deploy:
-    steps: 
-      - run:
-          name: Deploy application
-          command: yarn deploy_dev
-          filters:
-            branches:
-              only:
-                - develop
+          name: Run tests
+          command: npm test
 
-workflows:
-  deploy:
-    jobs:
-      - build
-      - test
-      - deploy:
-          filters:
-              branches:
-                only:
-                  - develop
+      - when:
+        condition:
+          - equal: [ develop, << pipeline.git.branch >> ]
+        steps:
+          - run:
+            name: Deploy dev
+            command: yarn deploy_dev
+
+      - when:
+        condition:
+          - equal: [ master, << pipeline.git.branch >> ]
+        steps:
+          - run:
+            name: Deploy prod
+            command: yarn deploy_prod
