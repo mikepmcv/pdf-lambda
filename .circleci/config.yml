@@ -39,12 +39,6 @@ jobs:
 
       - when:
         condition:
-          equal: [ *macos-executor, << parameters.os >> ]
-        steps:
-          - run: echo << parameters.node-version >>
-
-      - when:
-        condition:
           equal: [ develop, << pipeline.git.branch >> ]
         steps:
           - run:
