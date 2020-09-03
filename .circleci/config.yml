@@ -39,16 +39,22 @@ jobs:
 
       - when:
         condition:
-          - equal: [ develop, << pipeline.git.branch >> ]
+          equal: [ *macos-executor, << parameters.os >> ]
+        steps:
+          - run: echo << parameters.node-version >>
+
+      - when:
+        condition:
+          equal: [ develop, << pipeline.git.branch >> ]
         steps:
           - run:
             name: Deploy dev
             command: yarn deploy_dev
 
-      - when:
-        condition:
-          - equal: [ master, << pipeline.git.branch >> ]
-        steps:
-          - run:
-            name: Deploy prod
-            command: yarn deploy_prod
+      # - when:
+      #   condition:
+      #     - equal: [ master, << pipeline.git.branch >> ]
+      #   steps:
+      #     - run:
+      #       name: Deploy prod
+      #       command: yarn deploy_prod
