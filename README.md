@@ -40,7 +40,7 @@ That will guide you and what you need to do.
 The most important thing is having AWS credentials setup and having the correct account permissions. You can get a key and secret from the IAM section in AWS.
 
 ```
-serverless config credentials --provider aws --key AKIAIOSFODNN7EXAMPLE --secret wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
+yarn serverless config credentials --provider aws --key AKIAIOSFODNN7EXAMPLE --secret wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY --profile usercentric
 ```
 This is a once off setup that you never worry about again.
 
