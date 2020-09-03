@@ -96,9 +96,9 @@ const pdf = async ({
 
     await page.waitFor(100);
     // } else {
-    //   await page.waitForNavigation({
-    //     waitUntil: 'networkidle0',
-    //   });
+    // await page.waitForNavigation({
+    //   waitUntil: 'networkidle0',
+    // });
     // }
 
     console.log('PAGE LOADED');

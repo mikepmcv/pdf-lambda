@@ -27,7 +27,7 @@ const handler = async (event, context) => {
 
     return context.succeed(response);
   } catch (error) {
-    console.log('LAMBDA CATCH:', error);
+    console.log('PDF LAMBDA CATCH:', error);
 
     return context.fail(error);
   }
