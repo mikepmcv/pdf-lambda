@@ -33,9 +33,17 @@ jobs:
             - node_modules
           key: v1-dependencies-
         
-      - run: 
-          name: Run tests
-          command: npm test
+      # - run: 
+      #     name: Run tests
+      #     command: npm test
+
+      - when:
+        condition:
+          equal: [ master, << pipeline.git.branch >> ]
+        steps:
+          - run:
+              name: Run tests
+              command: npm test
 
       - when:
           condition:
@@ -47,8 +55,8 @@ jobs:
 
       # - when:
       #   condition:
-      #     - equal: [ master, << pipeline.git.branch >> ]
+      #     equal: [ master, << pipeline.git.branch >> ]
       #   steps:
       #     - run:
-      #       name: Deploy prod
-      #       command: yarn deploy_prod
+      #         name: Deploy Prod
+      #         command: yarn deploy_prod
