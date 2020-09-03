@@ -38,12 +38,12 @@ jobs:
       #     command: npm test
 
       - when:
-        condition:
-          equal: [ master, << pipeline.git.branch >> ]
-        steps:
-          - run:
-              name: Run tests
-              command: npm test
+          condition:
+            equal: [ master, << pipeline.git.branch >> ]
+          steps:
+            - run:
+                name: Run tests
+                command: npm test
 
       - when:
           condition:
