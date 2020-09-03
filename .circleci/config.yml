@@ -32,16 +32,14 @@ jobs:
           paths:
             - node_modules
           key: v1-dependencies-
-        
-      # run tests!
+  test:
+    steps: 
       - run: 
           name: Run tests with coverage
           command: npm test --coverage
-          filters:
-            branches:
-              only:
-                - master
-
+          
+  deploy:
+    steps: 
       - run:
           name: Deploy application
           command: yarn deploy_dev
@@ -49,3 +47,14 @@ jobs:
             branches:
               only:
                 - develop
+
+workflows:
+  deploy:
+    jobs:
+      - build
+      - test
+      - deploy:
+          filters:
+              branches:
+                only:
+                  - develop
