@@ -42,8 +42,8 @@ jobs:
             equal: [ develop, << pipeline.git.branch >> ]
           steps:
             - run:
-              name: Deploy dev
-              command: yarn deploy_dev
+                name: Deploy dev
+                command: yarn deploy_dev
 
       # - when:
       #   condition:
