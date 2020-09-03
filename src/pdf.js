@@ -21,6 +21,7 @@ const handler = async (event, context) => {
       headers: {
         'Content-type': 'application/pdf',
         'Access-Control-Allow-Origin': '*',
+        'x-header': 'test header',
       },
       body: stream.toString('base64'),
     };
