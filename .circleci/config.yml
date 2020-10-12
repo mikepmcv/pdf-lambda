@@ -12,7 +12,7 @@ jobs:
 
     steps:
       - slack/notify:
-          message: 'Pdf-lambda build started'
+          message: 'PDF-lambda build started'
           webhook: '${SLACK_WEBHOOK}'
           
       - checkout
