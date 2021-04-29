@@ -28,6 +28,7 @@ span.ant-radio.ant-radio-checked {
 .pmcv-footer-container,
 .pmcv-admin-header,
 .pmcv-service-header,
+.pmcv-header,
 .global-footer { display: none; }
 .form-group {
   -webkit-print-color-adjust: exact;
