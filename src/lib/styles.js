@@ -24,7 +24,11 @@ span.ant-radio.ant-radio-checked {
 .formio-component-referee_submit, .formio-component-referee_declaration { display: none;}
 .formio-component-photo {margin-bottom: 40px;}
 .ant-result-success { display: none }
-.pmcv-header-container, .pmcv-footer-container { display: none; }
+.pmcv-header-container, 
+.pmcv-footer-container,
+.pmcv-admin-header,
+.pmcv-service-header,
+.global-footer { display: none; }
 .form-group {
   -webkit-print-color-adjust: exact;
   margin-bottom: 5px;
