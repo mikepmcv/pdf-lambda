@@ -24,6 +24,7 @@ span.ant-radio.ant-radio-checked {
 .formio-component-referee_submit, .formio-component-referee_declaration { display: none;}
 .formio-component-photo {margin-bottom: 40px;}
 .ant-result-success { display: none }
+#pmcv-global-nav { display: none; }
 div.relative-position { display: none; }
 .pmcv-header-container, 
 .pmcv-footer-container,
