@@ -222,9 +222,4 @@ label.control-label.form-check-label {
   border-top: none;
   min-width: 120px;
 }
-
-.formio-component.ant-form-item,
-.formio-component-datagrid {
-  break-inside: avoid;
-}
 `;
