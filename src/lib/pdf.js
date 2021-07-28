@@ -90,11 +90,11 @@ const pdf = async ({
     await page.emulateMediaType('screen');
 
     // if (waitForFormio) {
-    await page.waitForSelector('.formio-form .form-group', {
+    await page.waitForSelector('.formio-form', {
       visible: true,
     });
 
-    await page.waitFor(100);
+    await page.waitFor(500);
     // } else {
     // await page.waitForNavigation({
     //   waitUntil: 'networkidle0',

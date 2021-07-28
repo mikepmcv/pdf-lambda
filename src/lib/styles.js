@@ -100,7 +100,7 @@ span.ant-radio.ant-radio-checked { display: none; }
 .formio-component-referee_declaration,
 .glyphicon-question-sign,
 .help-block {
-  display: none;
+  display: none !important;
 }
 
 .formio-component-photo { margin-bottom: 40px; }
