@@ -90,7 +90,7 @@ const pdf = async ({
     await page.emulateMediaType('screen');
 
     // if (waitForFormio) {
-    await page.waitForSelector('.formio-form', {
+    await page.waitForSelector('.formio-form .form-group', {
       visible: true,
     });
 
