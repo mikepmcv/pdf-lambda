@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "src/pdf.js",
   "scripts": {
-    "start": "sls offline start --port 3003 --stage dev --basePath / --prefix dev --location .webpack/service --offline",
+    "start": "sls offline start --location .webpack/service --offline",
     "logs_dev": "sls logs -f generate-the-pdf -s dev -r ap-southeast-2",
     "logs_prod": "sls logs -f generate-the-pdf -s prod -r ap-southeast-2",
     "deploy_prod": "sls deploy --stage prod",
@@ -12,13 +12,13 @@
     "example": "http-server ./example"
   },
   "dependencies": {
-    "chrome-aws-lambda": "^5.2.1",
+    "chrome-aws-lambda": "^10.1.0",
     "puppeteer-core": "^5.2.1"
   },
   "devDependencies": {
     "@types/aws-lambda": "^8.10.39",
     "@types/node": "^13.1.4",
-    "aws-lambda": "^1.0.4",
+    "aws-lambda": "^1.0.7",
     "eslint": "^7.7.0",
     "eslint-config-airbnb-base": "^14.2.0",
     "eslint-plugin-import": "^2.21.2",
@@ -26,7 +26,7 @@
     "puppeteer": "^2.0.0",
     "serverless": "^1.80.0",
     "serverless-domain-manager": "^4.2.0",
-    "serverless-offline": "v6.0.0-alpha.59",
+    "serverless-offline": "v8.8.0",
     "serverless-webpack": "^5.3.1",
     "webpack": "^4.41.5",
     "webpack-node-externals": "^1.7.2"
