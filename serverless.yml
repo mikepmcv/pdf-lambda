@@ -30,7 +30,6 @@ custom:
 
   serverless-offline:
     location: .webpack/service
-    httpPort: 3003
 
   # customDomain:
   #   domainName: pdf.usercentric.com.au
