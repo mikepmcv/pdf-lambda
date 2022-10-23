@@ -18,14 +18,14 @@ const pdf = async ({
   jwt = '',
 }) => {
   
-  //const executablePath = process.env.IS_OFFLINE ? null : await chromium.executablePath;
+  const executablePath = process.env.IS_OFFLINE ? null : await chromium.executablePath;
 
   console.time('PAGETIME');
 
   const browser = await puppeteer.launch({
     args: chromium.args,
     defaultViewport: chromium.defaultViewport,
-    executablePath: await chromium.executablePath,
+    executablePath: executablePath,
     headless: true,
     ignoreHTTPSErrors: true,
   });
@@ -48,8 +48,8 @@ const pdf = async ({
       });
     }
 
-     await page.setUserAgent(
-       'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.135 Safari/537.36',
+    await page.setUserAgent(
+      'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.135 Safari/537.36',
     );
 
     page
@@ -61,9 +61,9 @@ const pdf = async ({
       });
 
     await page
-      .goto(url, {
-        timeout: 15000,
-      })
+    .goto(url, {
+      waitUntil: 'networkidle2',
+    })
       .catch(async (e) => {
         console.log('PAGE ERROR CATCH', e.message);
 
@@ -75,10 +75,9 @@ const pdf = async ({
 
     await page.emulateMediaType('screen');
 
-    await page.waitForSelector('.formio-form .form-group', {
-       visible: true,
-    });
-    //await page.waitFor(500);
+     await page.waitForSelector('.formio-form .form-group', {
+        visible: true,
+     });
 
     console.log('PAGE LOADED');
     console.timeLog('PAGETIME');
