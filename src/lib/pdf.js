@@ -1,4 +1,5 @@
-import chromium from 'chrome-aws-lambda';
+import chromium from '@sparticuz/chromium';
+import puppeteer from 'puppeteer-core';
 import styles from './styles';
 
 /**
@@ -7,25 +8,25 @@ import styles from './styles';
     footerText?: string,
     cookies?: Array,
     jwt?: string
-    waitForFormio?: boolean
  }} options
 */
+
 const pdf = async ({
   url,
   footerText,
   cookies = [],
   jwt = '',
-  waitForFormio = false,
 }) => {
+  
   const executablePath = process.env.IS_OFFLINE ? null : await chromium.executablePath;
 
   console.time('PAGETIME');
 
-  const browser = await chromium.puppeteer.launch({
-    headless: true,
+  const browser = await puppeteer.launch({
     args: chromium.args,
     defaultViewport: chromium.defaultViewport,
-    executablePath,
+    executablePath: executablePath,
+    headless: true,
     ignoreHTTPSErrors: true,
   });
 
@@ -47,26 +48,11 @@ const pdf = async ({
       });
     }
 
-    // await page.setRequestInterception(true);
-    // await page.setCacheEnabled(false);
-
     await page.setUserAgent(
       'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.135 Safari/537.36',
     );
 
     page
-      // .on('request', (interceptedRequest) => {
-    // if (
-    //   (interceptedRequest.url().endsWith('.png') ||
-    // interceptedRequest.url().endsWith('.jpg'))
-    //   || interceptedRequest.url().includes('hotjar')
-    //   || interceptedRequest.url().includes('google')
-    // ) {
-    //   interceptedRequest.abort();
-    // } else {
-    //   interceptedRequest.continue();
-    // }
-      // })
       .on('error', () => console.log('ERROR'))
       .on('disconnected', () => console.log('DISCONNECTED'))
       .on('pageerror', ({ message }) => console.log(message))
@@ -75,9 +61,9 @@ const pdf = async ({
       });
 
     await page
-      .goto(url, {
-        timeout: 15000,
-      })
+    .goto(url, {
+      waitUntil: 'networkidle2',
+    })
       .catch(async (e) => {
         console.log('PAGE ERROR CATCH', e.message);
 
@@ -89,17 +75,9 @@ const pdf = async ({
 
     await page.emulateMediaType('screen');
 
-    // if (waitForFormio) {
-    await page.waitForSelector('.formio-form .form-group', {
-      visible: true,
-    });
-
-    await page.waitFor(500);
-    // } else {
-    // await page.waitForNavigation({
-    //   waitUntil: 'networkidle0',
-    // });
-    // }
+     await page.waitForSelector('.formio-form .form-group', {
+        visible: true,
+     });
 
     console.log('PAGE LOADED');
     console.timeLog('PAGETIME');

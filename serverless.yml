@@ -1,5 +1,5 @@
 service: pdf
-frameworkVersion: "1.83.3"
+frameworkVersion: "3.23.0"
 
 provider:
   name: aws
@@ -9,8 +9,6 @@ provider:
   runtime: nodejs16.x
   region: ap-southeast-2
   stage: ${opt:stage, 'dev'}
-  environment:
-    IS_OFFLINE: ${opt:offline, ''}
   apiGateway:
     binaryMediaTypes:
       - "application/pdf"
@@ -25,7 +23,8 @@ custom:
     webpackConfig: webpack.config.js
     includeModules:
       forceInclude:
-        - chrome-aws-lambda
+        - "@sparticuz/chromium"
+        - "puppeteer-core"
     packager: "yarn"
 
   serverless-offline:
