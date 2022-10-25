@@ -4,7 +4,7 @@ frameworkVersion: "3.23.0"
 provider:
   name: aws
   profile: usercentric
-  timeout: 30
+  timeout: 300
   memorySize: 1526
   runtime: nodejs16.x
   region: ap-southeast-2
