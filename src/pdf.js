@@ -2,7 +2,7 @@ import pdf from './lib/pdf';
 
 const handler = async (event, context) => {
   context.callbackWaitsForEmptyEventLoop = false;
-  
+
   try {
     const {
       url,

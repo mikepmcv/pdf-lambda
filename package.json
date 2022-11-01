@@ -3,11 +3,11 @@
   "version": "1.0.0",
   "main": "src/pdf.js",
   "scripts": {
-    "start": "sls offline start --location .webpack/service --offline",
+    "start": "sls offline start --httpPort 3009",
     "logs_dev": "sls logs -f generate-the-pdf -s dev -r ap-southeast-2",
     "logs_prod": "sls logs -f generate-the-pdf -s prod -r ap-southeast-2",
-    "deploy_prod": "sls deploy --stage prod",
-    "deploy_dev": "sls deploy --stage dev",
+    "deploy_prod": "sls deploy --stage prod --force",
+    "deploy_dev": "sls deploy --stage dev --force",
     "deploy_both": "npm run deploy && npm run deploy_dev",
     "example": "http-server ./example"
   },

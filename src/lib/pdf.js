@@ -2,6 +2,12 @@ import chromium from '@sparticuz/chromium';
 import puppeteer from 'puppeteer-core';
 import styles from './styles';
 
+function delay(time) {
+  return new Promise((resolve) => {
+    setTimeout(resolve, time);
+  });
+}
+
 /**
   @param {{
     url: string,
@@ -10,14 +16,12 @@ import styles from './styles';
     jwt?: string
  }} options
 */
-
 const pdf = async ({
   url,
   footerText,
   cookies = [],
   jwt = '',
 }) => {
-  
   const executablePath = process.env.IS_OFFLINE ? null : await chromium.executablePath;
 
   console.time('PAGETIME');
@@ -25,7 +29,7 @@ const pdf = async ({
   const browser = await puppeteer.launch({
     args: chromium.args,
     defaultViewport: chromium.defaultViewport,
-    executablePath: executablePath,
+    executablePath,
     headless: true,
     ignoreHTTPSErrors: true,
   });
@@ -39,6 +43,8 @@ const pdf = async ({
 
     const host = new URL(url).hostname;
     const page = await browser.newPage();
+
+    page.setDefaultNavigationTimeout(60000);
 
     if (jwt) {
       await page.setCookie({
@@ -61,9 +67,7 @@ const pdf = async ({
       });
 
     await page
-    .goto(url, {
-      waitUntil: 'networkidle2',
-    })
+      .goto(url, { timeout: 60000 })
       .catch(async (e) => {
         console.log('PAGE ERROR CATCH', e.message);
 
@@ -75,9 +79,7 @@ const pdf = async ({
 
     await page.emulateMediaType('screen');
 
-     await page.waitForSelector('.formio-form .form-group', {
-        visible: true,
-     });
+    await delay(500);
 
     console.log('PAGE LOADED');
     console.timeLog('PAGETIME');
