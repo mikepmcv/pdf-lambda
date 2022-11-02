@@ -79,8 +79,6 @@ const pdf = async ({
 
     await page.emulateMediaType('screen');
 
-    await delay(500);
-
     console.log('PAGE LOADED');
     console.timeLog('PAGETIME');
 
@@ -105,6 +103,8 @@ const pdf = async ({
 
     console.log('START PDF');
 
+    await page.waitForTimeout(3000);
+
     const stream = await page.pdf({
       format: 'A4',
       margin: {
@@ -115,9 +115,8 @@ const pdf = async ({
       },
       displayHeaderFooter: true,
       headerTemplate: '<div/>',
-      footerTemplate: `<div style="font-size: 10px; font-family: arial; text-align: right; margin-right: 20px; width: 100%"><span style="margin-right:40px;">${
-        footerText || ''
-      }</span>Page <span class="pageNumber"></span>/<span class="totalPages"></span></div>`,
+      footerTemplate: `<div style="font-size: 10px; font-family: arial; text-align: right; margin-right: 20px; width: 100%"><span style="margin-right:40px;">${footerText || ''
+        }</span>Page <span class="pageNumber"></span>/<span class="totalPages"></span></div>`,
     });
 
     console.log('END PDF');
