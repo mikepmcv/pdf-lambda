@@ -2,12 +2,6 @@ import chromium from '@sparticuz/chromium';
 import puppeteer from 'puppeteer-core';
 import styles from './styles';
 
-function delay(time) {
-  return new Promise((resolve) => {
-    setTimeout(resolve, time);
-  });
-}
-
 /**
   @param {{
     url: string,
