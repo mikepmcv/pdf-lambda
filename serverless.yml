@@ -1,16 +1,14 @@
 service: pdf
-frameworkVersion: "1.80.0"
+frameworkVersion: "3.23.0"
 
 provider:
   name: aws
   profile: usercentric
-  timeout: 30
+  timeout: 300
   memorySize: 1526
-  runtime: nodejs12.x
+  runtime: nodejs16.x
   region: ap-southeast-2
   stage: ${opt:stage, 'dev'}
-  environment:
-    IS_OFFLINE: ${opt:offline, ''}
   apiGateway:
     binaryMediaTypes:
       - "application/pdf"
@@ -25,7 +23,8 @@ custom:
     webpackConfig: webpack.config.js
     includeModules:
       forceInclude:
-        - chrome-aws-lambda
+        - "@sparticuz/chromium"
+        - "puppeteer-core"
     packager: "yarn"
 
   serverless-offline:
