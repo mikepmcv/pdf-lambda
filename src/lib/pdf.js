@@ -2,11 +2,11 @@ import chromium from '@sparticuz/chromium';
 import puppeteer from 'puppeteer-core';
 import styles from './styles';
 
-function delay(time) {
-  return new Promise((resolve) => {
-    setTimeout(resolve, time);
-  });
-}
+// function delay(time) {
+//   return new Promise((resolve) => {
+//     setTimeout(resolve, time);
+//   });
+// }
 
 /**
   @param {{
@@ -95,6 +95,9 @@ const pdf = async ({
 
       await page.setCookie(...cookieArr);
     }
+
+    // wait for formio forms to be loaded, timeout after 6s
+    await page.waitForSelector('[data-formio-status="loaded"]', { timeout: 6000 });
 
     await page.$eval('body', (element) => element.classList.add('pdf-view'));
     await page.addStyleTag({
