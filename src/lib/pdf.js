@@ -90,6 +90,9 @@ const pdf = async ({
       await page.setCookie(...cookieArr);
     }
 
+    // wait for formio forms to be loaded, timeout after 6s
+    await page.waitForSelector('[data-formio-status="loaded"]', { timeout: 6000 });
+
     await page.$eval('body', (element) => element.classList.add('pdf-view'));
     await page.addStyleTag({
       content: styles,
